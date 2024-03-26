@@ -126,11 +126,12 @@ namespace Virtual_Art_Gallery.Service
 
         public void Handlemenu()
         {
-            Console.WriteLine("Welcome to Virtual Art Gallery!!!\n\n");
+            
             int choice = 0, choice2 = 0, choice3 = 0;
             do
             {
                 Console.Clear();
+                Console.WriteLine("Welcome to Virtual Art Gallery!!!\n\n");
                 Console.WriteLine("Main Menu");
                 Console.WriteLine("---------------");
                 Console.WriteLine("Press 1: Artwork Management\nPress 2: User Favorite\nPress 3: Gallery Management\nPress 4: Exit\n\n");

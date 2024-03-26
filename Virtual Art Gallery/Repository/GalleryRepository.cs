@@ -182,43 +182,5 @@ namespace Virtual_Art_Gallery.Repository
             return favoriteArtwork;
         }
 
-        public bool ArtworkIdExists(int artworkId)
-        {
-            int count = 0;
-            cmd.CommandText = "Select count(*) as total from ARTWORK where ArtworkID = @art_id";
-            cmd.Parameters.AddWithValue("@art_id", artworkId);
-            connect.Open(); 
-            cmd.Connection = connect;
-            SqlDataReader reader = cmd.ExecuteReader();
-            cmd.Parameters.Clear();
-            while(reader.Read())
-            {
-                count = (int)reader["total"];
-            }
-            connect.Close();
-            if(count>0)
-                return true;
-            return false;  
-        }
-
-        public bool UserIdExists(int userId)
-        {
-            int count = 0;
-            cmd.CommandText = "Select count(*) as total from [USER] where UserID = @user_id";
-            cmd.Parameters.AddWithValue("@user_id", userId);
-            connect.Open();
-            cmd.Connection = connect;
-            SqlDataReader reader = cmd.ExecuteReader();
-            cmd.Parameters.Clear();
-            while (reader.Read())
-            {
-                count = (int)reader["total"];
-            }
-            connect.Close();
-            if (count > 0)
-                return true;
-            return false;
-        }
-
     }
 }

@@ -18,6 +18,7 @@ namespace Virtual_Art_Gallery.VirtualArtGallery
             int choice = 0;
             do
             {
+                Console.Clear();
                 Console.WriteLine("Virtual Art Gallery");
                 Console.WriteLine("---------------------\n");
                 Console.WriteLine("Press 1: Login\nPress 2: Register\nPress 3: Exit\n");
