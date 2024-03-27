@@ -32,7 +32,7 @@ namespace Virtual_Art_Gallery.Models
 
         public override string ToString()
         {
-            return $"{GalleryID} {Name} {Description} {Location} {Curator} {OpeningHours}";
+            return $"Id::{GalleryID}   Name::{Name}   Description::{Description}   Location::{Location}   Curator::{Curator}   Opening Time::{OpeningHours}";
         }
     }
 }

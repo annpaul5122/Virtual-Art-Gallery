@@ -35,7 +35,7 @@ namespace Virtual_Art_Gallery.Models
 
         public override string ToString()
         {
-            return $"{ArtistID} {Name} {Biography} {BirthDate} {Nationality} {Website} {ContactInformation}";
+            return $"Id::{ArtistID}   Name::{Name}   Biography::{Biography}   DOB::{BirthDate}   Nationality::{Nationality}   Website::{Website}   Contact::{ContactInformation}";
         }
     }
 }
