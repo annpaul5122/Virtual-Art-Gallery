@@ -45,6 +45,7 @@ namespace Virtual_Art_Gallery.Exceptions
         {
            if(!ArtworkIdExists(artworkId))
            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 throw new ArtworkNotFoundException("Artwork Id not found");
            }
         }

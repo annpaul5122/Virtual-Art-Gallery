@@ -21,9 +21,16 @@ namespace Virtual_Art_Gallery.Service
         public void addRecordsToArtwork(Artwork artwork)
         {
             if (_virtualgallery.addArtwork(artwork))
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Insertion Successful");
+            }
             else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Insertion not successful. Try again!!!");
+            }
+
         }
 
         public void updateArtwork(Artwork artwork)
@@ -32,9 +39,15 @@ namespace Virtual_Art_Gallery.Service
             {
                 ArtworkNotFoundException.ArtworkNotFound(artwork.ArtworkID);
                 if (_virtualgallery.updateArtwork(artwork))
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Updation successful");
+                }
                 else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Updation unsuccessful. Try again!!!");
+                }
             }
             catch(Exception ex)
             {
@@ -48,9 +61,15 @@ namespace Virtual_Art_Gallery.Service
             {
                 ArtworkNotFoundException.ArtworkNotFound(artworkId);
                 if (_virtualgallery.removeArtwork(artworkId))
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Record has been deleted successfully");
+                }
                 else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Deletion unsuccessful.Try again!!!");
+                }
             }
             catch(Exception ex)
             {
@@ -63,6 +82,8 @@ namespace Virtual_Art_Gallery.Service
             try
             {
                 ArtworkNotFoundException.ArtworkNotFound(artworkId);
+                Console.WriteLine("Id    Title\t\t     Description\t\t Creation\t\t  Medium\t    Image\t\t     Artist");
+                Console.WriteLine(new string('-', 132));
                 Console.WriteLine(_virtualgallery.getArtworkById(artworkId));
             }
             catch (Exception ex)
@@ -73,7 +94,9 @@ namespace Virtual_Art_Gallery.Service
 
         public void searchArtwork()
         {
-            foreach(Artwork item in _virtualgallery.searchArtworks())
+            Console.WriteLine("Id    Title\t\t     Description\t\t Creation\t\t  Medium\t    Image\t\t     Artist");
+            Console.WriteLine(new string('-',132));
+            foreach (Artwork item in _virtualgallery.searchArtworks())
                 Console.WriteLine(item);
         }
 
@@ -84,9 +107,15 @@ namespace Virtual_Art_Gallery.Service
                 UserNotFoundException.UserNotFound(u_id);
                 ArtworkNotFoundException.ArtworkNotFound(a_id);
                 if (_virtualgallery.addArtworkToFavorite(u_id, a_id))
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Favorite artwork added successfully");
+                }
                 else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Operation unsuccessful");
+                }
             }
             catch (Exception ex)
             {
@@ -101,9 +130,15 @@ namespace Virtual_Art_Gallery.Service
                 UserNotFoundException.UserNotFound(u_id);
                 ArtworkNotFoundException.ArtworkNotFound(a_id);
                 if (_virtualgallery.removeArtworkFromFavorite(u_id, a_id))
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Favorite artwork removed unsuccessfully");
+                }
                 else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Operation unsuccessful");
+                }
             }
             catch (Exception ex)
             {
@@ -116,7 +151,11 @@ namespace Virtual_Art_Gallery.Service
             try
             {
                 UserNotFoundException.UserNotFound(userId);
-                Console.WriteLine(_virtualgallery.getUserFavoriteArtworks(userId));
+                Console.WriteLine();
+                Console.WriteLine("Id    Title\t\t     Description\t\t Creation\t\t  Medium\t    Image\t\t     Artist");
+                Console.WriteLine(new string('-', 132));
+                foreach (Artwork item in _virtualgallery.getUserFavoriteArtworks(userId))
+                    Console.WriteLine(item);
             }
             catch(Exception ex)
             {
@@ -131,22 +170,31 @@ namespace Virtual_Art_Gallery.Service
             do
             {
                 Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("Welcome to Virtual Art Gallery!!!\n\n");
                 Console.WriteLine("Main Menu");
                 Console.WriteLine("---------------");
+                Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine("Press 1: Artwork Management\nPress 2: User Favorite\nPress 3: Gallery Management\nPress 4: Exit\n\n");
+                Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("Enter your choice: ");
                 choice = int.Parse(Console.ReadLine());
+                Console.WriteLine();
                 switch (choice)
                 {
                     case 1:
                         do
                         {
+                            Console.WriteLine();
+                            Console.ForegroundColor = ConsoleColor.Blue;
                             Console.WriteLine("Artwork Management");
                             Console.WriteLine("---------------------");
-                            Console.WriteLine("1. Add Artwork\n2. Update Artwork\n3. Remove Artwork\n4. Get Artwork\n5. Search Artwork\n6. Exit\n");
+                            Console.ForegroundColor = ConsoleColor.Cyan;
+                            Console.WriteLine("1. Add Artwork\n2. Update Artwork\n3. Remove Artwork\n4. Get Artwork\n5. Display All Artwork\n6. Exit\n");
+                            Console.ForegroundColor = ConsoleColor.White;
                             Console.WriteLine("Enter your choice: ");
                             choice2 = int.Parse(Console.ReadLine());
+                            Console.WriteLine();
                             Artwork artwork;
                             switch (choice2)
                             {
@@ -207,6 +255,7 @@ namespace Virtual_Art_Gallery.Service
                                     break;
 
                                 default:
+                                    Console.ForegroundColor = ConsoleColor.Red;
                                     Console.WriteLine("Try again!!!");
                                     break;
                             }
@@ -216,14 +265,21 @@ namespace Virtual_Art_Gallery.Service
                     case 2:
                         do
                         {
+                            Console.WriteLine();
+                            Console.ForegroundColor = ConsoleColor.Blue;
                             Console.WriteLine("User Favorite");
                             Console.WriteLine("----------------");
+                            Console.ForegroundColor = ConsoleColor.Cyan;
                             Console.WriteLine("1. Add Favorite\n2. Remove Favorite\n3. Get Favorite\n4. Exit\n\n");
+                            Console.ForegroundColor = ConsoleColor.White;
                             Console.WriteLine("Enter your choice: ");
                             choice3 = int.Parse(Console.ReadLine());
+                            Console.WriteLine();
                             switch (choice3)
                             {
                                 case 1:
+                                    searchArtwork();
+                                    Console.WriteLine();
                                     Console.WriteLine("Enter user id: ");
                                     int userId = int.Parse(Console.ReadLine());
                                     Console.WriteLine("Enter Artwork id: ");
@@ -250,6 +306,7 @@ namespace Virtual_Art_Gallery.Service
                                     break;
 
                                 default:
+                                    Console.ForegroundColor = ConsoleColor.Red;
                                     Console.WriteLine("Try again!!!");
                                     break;
                             }
@@ -266,6 +323,7 @@ namespace Virtual_Art_Gallery.Service
                         break;
 
                     default:
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Try again!!!");
                         break;
 

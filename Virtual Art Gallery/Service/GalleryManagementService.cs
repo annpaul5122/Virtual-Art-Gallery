@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using Virtual_Art_Gallery.Exceptions;
@@ -22,31 +23,53 @@ namespace Virtual_Art_Gallery.Service
         public void AddGallery(Gallery gallery)
         {
             if (_gallerymanagement.AddGallery(gallery))
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Insertion Successful");
+            }
             else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Insertion not successful. Try again!!!");
+            }
         }
 
         public void UpdateGallery(Gallery gallery)
         {
             if (_gallerymanagement.UpdateGallery(gallery))
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Updation successful");
+            }
             else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Updation unsuccessful. Try again!!!");
+            }
         }
 
         public void RemoveGallery(int galleryId)
         {
             if (_gallerymanagement.RemoveGallery(galleryId))
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Record has been deleted successfully");
+            }
             else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Deletion unsuccessful.Try again!!!");
+            }
         }
 
         public void SearchGallery()
         {
+            Console.WriteLine("Id\tName\t\t\tDescription\t\t\tLocation\t\tCurator\t\tOpening Time");
+            Console.WriteLine(new string('-',120));
             foreach (Gallery item in _gallerymanagement.searchGallery())
+            {
                 Console.WriteLine(item);
+            }
         }
 
         public void HandleMenu()
@@ -54,11 +77,16 @@ namespace Virtual_Art_Gallery.Service
             int choice = 0;
             do
             {
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("Gallery Management");
                 Console.WriteLine("---------------------");
-                Console.WriteLine("1. Add Gallery\n2. Update Gallery\n3. Remove Gallery\n4. Search Gallery\n5. Exit\n");
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("1. Add Gallery\n2. Update Gallery\n3. Remove Gallery\n4. Display All Gallery\n5. Exit\n");
+                Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("Enter your choice: ");
                 choice = int.Parse(Console.ReadLine());
+                Console.WriteLine();
                 Gallery gallery;
                 switch (choice)
                 {
@@ -109,6 +137,7 @@ namespace Virtual_Art_Gallery.Service
                         break;
 
                     default:
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Try again!!!");
                         break;
                 }

@@ -19,16 +19,22 @@ namespace Virtual_Art_Gallery.VirtualArtGallery
             do
             {
                 Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("Virtual Art Gallery");
                 Console.WriteLine("---------------------\n");
+                Console.ForegroundColor= ConsoleColor.Cyan;
                 Console.WriteLine("Press 1: Login\nPress 2: Register\nPress 3: Exit\n");
+                Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("Enter your choice: ");
                 choice = int.Parse(Console.ReadLine());
+                Console.WriteLine();
                 switch (choice)
                 {
                     case 1:
+                        Console.ForegroundColor=ConsoleColor.Blue;
                         Console.WriteLine("Login");
                         Console.WriteLine("--------------");
+                        Console.ForegroundColor = ConsoleColor.White;
                         Console.WriteLine("Enter username: ");
                         string username = Console.ReadLine();
                         Console.WriteLine("Enter password: ");
@@ -37,8 +43,10 @@ namespace Virtual_Art_Gallery.VirtualArtGallery
                         break;
 
                     case 2:
+                        Console.ForegroundColor = ConsoleColor.Blue;
                         Console.WriteLine("Register");
                         Console.WriteLine("-------------");
+                        Console.ForegroundColor = ConsoleColor.White;
                         Console.WriteLine("Set username: ");
                         string userName = Console.ReadLine();
                         Console.WriteLine("Set password: ");
@@ -62,6 +70,7 @@ namespace Virtual_Art_Gallery.VirtualArtGallery
                         break;
 
                     default:
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Try again!!!");
                         break;
                 }

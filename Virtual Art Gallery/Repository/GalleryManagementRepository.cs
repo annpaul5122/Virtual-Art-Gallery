@@ -21,17 +21,25 @@ namespace Virtual_Art_Gallery.Repository
         }
         public bool AddGallery(Gallery gallery)
         {
-            cmd.CommandText = "Insert into GALLERY values (@name,@description,@location,@curator,@time)";
-            cmd.Parameters.AddWithValue("@name", gallery.Name);
-            cmd.Parameters.AddWithValue("@description", gallery.Description);
-            cmd.Parameters.AddWithValue("@location", gallery.Location);
-            cmd.Parameters.AddWithValue("@curator", gallery.Curator);
-            cmd.Parameters.AddWithValue("@time", gallery.OpeningHours);
-            connect.Open();
-            cmd.Connection = connect;
-            int status = cmd.ExecuteNonQuery();
-            cmd.Parameters.Clear();
-            connect.Close();
+            int status = 0;
+            try
+            {
+                cmd.CommandText = "Insert into GALLERY values (@name,@description,@location,@curator,@time)";
+                cmd.Parameters.AddWithValue("@name", gallery.Name);
+                cmd.Parameters.AddWithValue("@description", gallery.Description);
+                cmd.Parameters.AddWithValue("@location", gallery.Location);
+                cmd.Parameters.AddWithValue("@curator", gallery.Curator);
+                cmd.Parameters.AddWithValue("@time", gallery.OpeningHours);
+                connect.Open();
+                cmd.Connection = connect;
+                status = cmd.ExecuteNonQuery();
+                cmd.Parameters.Clear();
+                connect.Close();
+            }
+            catch(SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
             if (status > 0)
             {
                 return true;
@@ -41,18 +49,26 @@ namespace Virtual_Art_Gallery.Repository
 
         public bool UpdateGallery(Gallery gallery)
         {
-            cmd.CommandText = "Update GALLERY set [Name]=@name,[Description]=@description,Location=@location,Curator=@curator,OpeningHours=@time where GalleryID=@id";
-            cmd.Parameters.AddWithValue("@id",gallery.GalleryID);   
-            cmd.Parameters.AddWithValue("@name", gallery.Name);
-            cmd.Parameters.AddWithValue("@description", gallery.Description);
-            cmd.Parameters.AddWithValue("@location", gallery.Location);
-            cmd.Parameters.AddWithValue("@curator", gallery.Curator);
-            cmd.Parameters.AddWithValue("@time", gallery.OpeningHours);
-            connect.Open();
-            cmd.Connection = connect;
-            int status = cmd.ExecuteNonQuery();
-            cmd.Parameters.Clear();
-            connect.Close();
+            int status = 0;
+            try
+            {
+                cmd.CommandText = "Update GALLERY set [Name]=@name,[Description]=@description,Location=@location,Curator=@curator,OpeningHours=@time where GalleryID=@id";
+                cmd.Parameters.AddWithValue("@id", gallery.GalleryID);
+                cmd.Parameters.AddWithValue("@name", gallery.Name);
+                cmd.Parameters.AddWithValue("@description", gallery.Description);
+                cmd.Parameters.AddWithValue("@location", gallery.Location);
+                cmd.Parameters.AddWithValue("@curator", gallery.Curator);
+                cmd.Parameters.AddWithValue("@time", gallery.OpeningHours);
+                connect.Open();
+                cmd.Connection = connect;
+                status = cmd.ExecuteNonQuery();
+                cmd.Parameters.Clear();
+                connect.Close();
+            }
+            catch(SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
             if (status > 0)
             {
                 return true;
@@ -62,13 +78,21 @@ namespace Virtual_Art_Gallery.Repository
 
         public bool RemoveGallery(int galleryId)
         {
-            cmd.CommandText = "Delete from GALLERY where GalleryID=@Id";
-            cmd.Parameters.AddWithValue("@Id", galleryId);
-            connect.Open();
-            cmd.Connection = connect;
-            int status = cmd.ExecuteNonQuery();
-            cmd.Parameters.Clear();
-            connect.Close();
+            int status = 0;
+            try
+            {
+                cmd.CommandText = "Delete from GALLERY where GalleryID=@Id";
+                cmd.Parameters.AddWithValue("@Id", galleryId);
+                connect.Open();
+                cmd.Connection = connect;
+                status = cmd.ExecuteNonQuery();
+                cmd.Parameters.Clear();
+                connect.Close();
+            }
+            catch(SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
             if (status > 0)
             {
                 return true;
@@ -79,22 +103,29 @@ namespace Virtual_Art_Gallery.Repository
         public List<Gallery> searchGallery()
         {
             List<Gallery> gallery = new List<Gallery>();
-            cmd.CommandText = "Select * from GALLERY";
-            connect.Open();
-            cmd.Connection = connect;
-            SqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
+            try
             {
-                Gallery gallery1 = new Gallery();
-                gallery1.GalleryID = (int)reader["GalleryID"];
-                gallery1.Name = (string)reader["Name"];
-                gallery1.Description = (string)reader["Description"];
-                gallery1.Location = (string)reader["Location"];
-                gallery1.Curator = (int)reader["Curator"];
-                gallery1.OpeningHours = (TimeSpan)reader["OpeningHours"];
-                gallery.Add(gallery1);
+                cmd.CommandText = "Select * from GALLERY";
+                connect.Open();
+                cmd.Connection = connect;
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    Gallery gallery1 = new Gallery();
+                    gallery1.GalleryID = (int)reader["GalleryID"];
+                    gallery1.Name = (string)reader["Name"];
+                    gallery1.Description = (string)reader["Description"];
+                    gallery1.Location = (string)reader["Location"];
+                    gallery1.Curator = (int)reader["Curator"];
+                    gallery1.OpeningHours = (TimeSpan)reader["OpeningHours"];
+                    gallery.Add(gallery1);
+                }
+                connect.Close();
             }
-            connect.Close();
+            catch(SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
             return gallery;
         }
     }

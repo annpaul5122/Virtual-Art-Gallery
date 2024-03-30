@@ -26,7 +26,8 @@ namespace Virtual_Art_Gallery.Service
                 _virtualGallery.Handlemenu();
             }
             else
-            { 
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Login unsuccessful!!"); 
             }
         }
@@ -37,6 +38,7 @@ namespace Virtual_Art_Gallery.Service
                 _virtualGallery.Handlemenu();
             else 
             { 
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Registration unsuccessful try again!!!"); 
             }
         }

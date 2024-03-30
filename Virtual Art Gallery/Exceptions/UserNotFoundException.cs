@@ -45,6 +45,7 @@ namespace Virtual_Art_Gallery.Exceptions
         {
             if(!UserIdExists(userId))
             {
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 throw new UserNotFoundException("User Id not found");
             }
         }

@@ -20,7 +20,7 @@ namespace Virtual_Art_Gallery.Repository
         bool addArtworkToFavorite(int userId, int artworkId);
         bool removeArtworkFromFavorite(int userId, int artworkId);
 
-        int? getUserFavoriteArtworks(int userId);
+        List<Artwork> getUserFavoriteArtworks(int userId);
 
     }
 }
