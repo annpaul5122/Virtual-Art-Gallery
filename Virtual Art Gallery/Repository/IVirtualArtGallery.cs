@@ -17,7 +17,7 @@ namespace Virtual_Art_Gallery.Repository
 
         List<Artwork> searchArtworks();
 
-        bool addArtworkToFavorite(int userId, int artworkId);
+        bool addArtworkToFavorite(int userId, List<int> artworkId);
         bool removeArtworkFromFavorite(int userId, int artworkId);
 
         List<Artwork> getUserFavoriteArtworks(int userId);

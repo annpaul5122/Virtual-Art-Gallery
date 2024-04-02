@@ -100,13 +100,16 @@ namespace Virtual_Art_Gallery.Service
                 Console.WriteLine(item);
         }
 
-        public void addFavorite(int u_id,int a_id)
+        public void addFavorite(int u_id,List<int> a_id)
         {
             try
             {
                 UserNotFoundException.UserNotFound(u_id);
-                ArtworkNotFoundException.ArtworkNotFound(a_id);
-                if (_virtualgallery.addArtworkToFavorite(u_id, a_id))
+                foreach (int item in a_id)
+                {
+                    ArtworkNotFoundException.ArtworkNotFound(item);
+                }
+                if (_virtualgallery.addArtworkToFavorite(u_id,a_id))
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Favorite artwork added successfully");
@@ -282,8 +285,16 @@ namespace Virtual_Art_Gallery.Service
                                     Console.WriteLine();
                                     Console.WriteLine("Enter user id: ");
                                     int userId = int.Parse(Console.ReadLine());
-                                    Console.WriteLine("Enter Artwork id: ");
-                                    int artworkId = int.Parse(Console.ReadLine());
+                                    Console.WriteLine("Enter your favorite artwork ids (Enter 0 to stop)");
+                                    List<int> artworkId = new List<int>();
+                                    int input=0;
+                                    while(true)
+                                    {
+                                        input=int.Parse(Console.ReadLine());
+                                        if (input == 0)
+                                            break;
+                                        artworkId.Add(input);
+                                    }
                                     addFavorite(userId, artworkId);
                                     break;
 

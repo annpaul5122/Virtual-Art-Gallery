@@ -162,29 +162,66 @@ namespace Virtual_Art_Gallery.Repository
             return artworks;
         }
 
-        public bool addArtworkToFavorite(int userId, int artworkId)
+        private bool userFavExists(int userId, int artId)
         {
-            int updateStatus =0,insertStatus =0;
+            cmd.CommandText = "Select ArtworkID from USER_FAVORITE_ARTWORK where UserID=@u_id";
+            cmd.Parameters.AddWithValue("@u_id", userId);
+            connect.Open();
+            cmd.Connection = connect;
+            int status = 0;
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                int artwork = (int)reader["ArtworkID"];
+                if (artwork == artId)
+                {
+                    status = 1;
+                    break;
+                }
+            }
+            cmd.Parameters.Clear();
+            connect.Close();
+            if (status == 1)
+                return true;
+            return false;
+        }
+
+        public bool addArtworkToFavorite(int userId, List<int> artworkId)
+        {
+            int insertStatus =0;
             try
             {
-                connect.Open();
-                cmd.Connection = connect;
-                cmd.CommandText = "Update [USER] set FavoriteArtworks=@art_id where UserID=@userId";
-                cmd.Parameters.AddWithValue("@userId", userId);
-                cmd.Parameters.AddWithValue("@art_id", artworkId);
-                updateStatus = cmd.ExecuteNonQuery();
-                cmd.CommandText = "Insert into USER_FAVORITE_ARTWORK values (@user_Id,@artw_ID)";
-                cmd.Parameters.AddWithValue("@user_Id", userId);
-                cmd.Parameters.AddWithValue("@artw_ID", artworkId);
-                insertStatus = cmd.ExecuteNonQuery();
-                cmd.Parameters.Clear();
-                connect.Close();
+                
+                foreach (int item in artworkId)
+                {
+                    if (userFavExists(userId, item))
+                    {
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine($"User Favorite {item} already Exists!!");
+                    }
+                    else
+                    {
+                        cmd.CommandText = "Insert into USER_FAVORITE_ARTWORK values (@user_Id,@artw_ID)";
+                        cmd.Parameters.AddWithValue("@user_Id", userId);
+                        cmd.Parameters.AddWithValue("@artw_ID", item);
+                        connect.Open();
+                        cmd.Connection = connect;
+                        insertStatus = cmd.ExecuteNonQuery();
+                        if (insertStatus > 0)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            Console.WriteLine($"{item} added as favorite");
+                        }
+                        cmd.Parameters.Clear();
+                        connect.Close();
+                    }
+                }
             }
             catch(SqlException ex)
             {
                 Console.WriteLine(ex.Message );
             }
-            if (updateStatus > 0 && insertStatus > 0)
+            if (insertStatus > 0)
             {
                 return true;
             }
@@ -193,18 +230,15 @@ namespace Virtual_Art_Gallery.Repository
 
         public bool removeArtworkFromFavorite(int userId, int artworkId)
         {
-            int status1=0, status2 = 0;
+            int status = 0;
             try
             {
                 connect.Open();
                 cmd.Connection = connect;
-                cmd.CommandText = "Update [USER] set FavoriteArtworks = NULL where UserID=@user_ID";
-                cmd.Parameters.AddWithValue("@user_ID", userId);
-                status1 = cmd.ExecuteNonQuery();
                 cmd.CommandText = "Delete from USER_FAVORITE_ARTWORK where ArtworkID=@a_Id and UserID=@u_id";
                 cmd.Parameters.AddWithValue("@a_Id", artworkId);
                 cmd.Parameters.AddWithValue("@u_id", userId);
-                status2 = cmd.ExecuteNonQuery();
+                status = cmd.ExecuteNonQuery();
                 cmd.Parameters.Clear();
                 connect.Close();
             }
@@ -212,7 +246,7 @@ namespace Virtual_Art_Gallery.Repository
             {
                 Console.WriteLine(ex.Message );
             }
-            if (status1 > 0 && status2 > 0)
+            if (status > 0)
             {
                 return true;
             }

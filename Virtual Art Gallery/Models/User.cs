@@ -16,9 +16,9 @@ namespace Virtual_Art_Gallery.Models
         public string LastName { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string ProfilePicture { get; set; }
-        public int? FavoriteArtworks { get; set; }
 
-        public User(int id,string userName,string pwd,string email,string fname,string lname,DateTime dob,string picture,int favArtwork)
+
+        public User(int id,string userName,string pwd,string email,string fname,string lname,DateTime dob,string picture)
         {
             UserID = id;
             Username=userName;
@@ -28,7 +28,6 @@ namespace Virtual_Art_Gallery.Models
             LastName = lname;
             DateOfBirth = dob;
             ProfilePicture = picture;
-            FavoriteArtworks = favArtwork;
         }
 
         public User()
@@ -38,7 +37,7 @@ namespace Virtual_Art_Gallery.Models
 
         public override string ToString()
         {
-            return $"Id::{UserID}   Username::{Username}   Password::{Password}   Email::{Email}   FirstName::{FirstName}   LastName::{LastName}   DOB::{DateOfBirth}   Profile::{ProfilePicture}   FavArtwork::{FavoriteArtworks}";
+            return $"Id::{UserID}   Username::{Username}   Password::{Password}   Email::{Email}   FirstName::{FirstName}   LastName::{LastName}   DOB::{DateOfBirth}   Profile::{ProfilePicture}";
         }
     }
 }
