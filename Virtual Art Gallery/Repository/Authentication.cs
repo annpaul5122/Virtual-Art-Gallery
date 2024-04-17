@@ -54,11 +54,11 @@ namespace Virtual_Art_Gallery.Repository
             {
                 cmd.CommandText = "Insert into [USER] values (@username,@password,@email,@fname,@lname,@dob,@profile)";
                 cmd.Parameters.AddWithValue("@username", user.Username);
-                cmd.Parameters.AddWithValue("@password", user.Username);
-                cmd.Parameters.AddWithValue("@email", user.Username);
-                cmd.Parameters.AddWithValue("@fname", user.Username);
-                cmd.Parameters.AddWithValue("@lname", user.Username);
-                cmd.Parameters.AddWithValue("@dob", user.Username);
+                cmd.Parameters.AddWithValue("@password", user.Password);
+                cmd.Parameters.AddWithValue("@email", user.Email);
+                cmd.Parameters.AddWithValue("@fname", user.FirstName);
+                cmd.Parameters.AddWithValue("@lname", user.LastName);
+                cmd.Parameters.AddWithValue("@dob", user.DateOfBirth);
                 cmd.Parameters.AddWithValue("@profile", user.ProfilePicture);
                 connect.Open();
                 cmd.Connection = connect;
