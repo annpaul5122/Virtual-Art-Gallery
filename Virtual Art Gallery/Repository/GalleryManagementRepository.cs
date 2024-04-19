@@ -128,5 +128,29 @@ namespace Virtual_Art_Gallery.Repository
             }
             return gallery;
         }
+
+        public List<string> artworksInGallery(int galleryId)
+        {
+            List<string> artworkName = new List<string>();
+            try
+            {
+                cmd.CommandText = "Select Title from ARTWORK a join GALLERY g on a.ArtistID=g.Curator where g.GalleryID=@id";
+                cmd.Parameters.AddWithValue("@id", galleryId);
+                connect.Open();
+                cmd.Connection = connect;
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    artworkName.Add((string)reader["Title"]);
+                }
+                cmd.Parameters.Clear();
+                connect.Close();
+            }
+            catch(SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return artworkName;
+        }
     }
 }

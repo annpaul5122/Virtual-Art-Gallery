@@ -20,15 +20,23 @@ namespace Virtual_Art_Gallery.Service
 
         public void addRecordsToArtwork(Artwork artwork)
         {
-            if (_virtualgallery.addArtwork(artwork))
+            try
             {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Insertion Successful");
+                ArtistNotFoundException.ArtistNotFound(artwork.ArtistId);
+                if (_virtualgallery.addArtwork(artwork))
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Insertion Successful");
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Insertion not successful. Try again!!!");
+                }
             }
-            else
+            catch(Exception ex)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Insertion not successful. Try again!!!");
+                Console.WriteLine(ex.Message);
             }
 
         }
@@ -37,7 +45,7 @@ namespace Virtual_Art_Gallery.Service
         {
             try
             {
-                ArtworkNotFoundException.ArtworkNotFound(artwork.ArtworkID);
+                ArtistNotFoundException.ArtistNotFound(artwork.ArtistId);
                 if (_virtualgallery.updateArtwork(artwork))
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
@@ -71,7 +79,7 @@ namespace Virtual_Art_Gallery.Service
                     Console.WriteLine("Deletion unsuccessful.Try again!!!");
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
@@ -95,21 +103,20 @@ namespace Virtual_Art_Gallery.Service
         public void searchArtwork()
         {
             Console.WriteLine("Id    Title\t\t     Description\t\t Creation\t\t  Medium\t    Image\t\t     Artist");
-            Console.WriteLine(new string('-',132));
+            Console.WriteLine(new string('-', 132));
             foreach (Artwork item in _virtualgallery.searchArtworks())
                 Console.WriteLine(item);
         }
 
-        public void addFavorite(int u_id,List<int> a_id)
+        public void addFavorite(int u_id, List<int> a_id)
         {
             try
             {
-                UserNotFoundException.UserNotFound(u_id);
                 foreach (int item in a_id)
                 {
                     ArtworkNotFoundException.ArtworkNotFound(item);
                 }
-                if (_virtualgallery.addArtworkToFavorite(u_id,a_id))
+                if (_virtualgallery.addArtworkToFavorite(u_id, a_id))
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Favorite artwork added successfully");
@@ -126,11 +133,10 @@ namespace Virtual_Art_Gallery.Service
             }
         }
 
-        public void removeFavorite(int u_id,int a_id) 
+        public void removeFavorite(int u_id, int a_id)
         {
             try
             {
-                UserNotFoundException.UserNotFound(u_id);
                 ArtworkNotFoundException.ArtworkNotFound(a_id);
                 if (_virtualgallery.removeArtworkFromFavorite(u_id, a_id))
                 {
@@ -160,7 +166,7 @@ namespace Virtual_Art_Gallery.Service
                 foreach (Artwork item in _virtualgallery.getUserFavoriteArtworks(userId))
                     Console.WriteLine(item);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
@@ -168,7 +174,7 @@ namespace Virtual_Art_Gallery.Service
 
         public void Handlemenu()
         {
-            
+
             int choice = 0, choice2 = 0, choice3 = 0;
             do
             {
@@ -219,22 +225,30 @@ namespace Virtual_Art_Gallery.Service
                                     break;
 
                                 case 2:
-                                    Console.WriteLine("Enter artwork id: ");
-                                    int artId = int.Parse(Console.ReadLine());
-                                    Console.WriteLine("Enter title: ");
-                                    string u_title = Console.ReadLine();
-                                    Console.WriteLine("Enter description: ");
-                                    string u_desc = Console.ReadLine();
-                                    Console.WriteLine("Enter creation date: ");
-                                    string u_date = Console.ReadLine();
-                                    Console.WriteLine("Enter medium: ");
-                                    string u_medium = Console.ReadLine();
-                                    Console.WriteLine("Enter image url: ");
-                                    string u_url = Console.ReadLine();
-                                    Console.WriteLine("Enter artist id: ");
-                                    int u_artistId = int.Parse(Console.ReadLine());
-                                    artwork = new Artwork(artId, u_title, u_desc, DateTime.Parse(u_date), u_medium, u_url, u_artistId);
-                                    updateArtwork(artwork);
+                                    try
+                                    {
+                                        Console.WriteLine("Enter artwork id: ");
+                                        int artId = int.Parse(Console.ReadLine());
+                                        ArtworkNotFoundException.ArtworkNotFound(artId);
+                                        Console.WriteLine("Enter title: ");
+                                        string u_title = Console.ReadLine();
+                                        Console.WriteLine("Enter description: ");
+                                        string u_desc = Console.ReadLine();
+                                        Console.WriteLine("Enter creation date: ");
+                                        string u_date = Console.ReadLine();
+                                        Console.WriteLine("Enter medium: ");
+                                        string u_medium = Console.ReadLine();
+                                        Console.WriteLine("Enter image url: ");
+                                        string u_url = Console.ReadLine();
+                                        Console.WriteLine("Enter artist id: ");
+                                        int u_artistId = int.Parse(Console.ReadLine());
+                                        artwork = new Artwork(artId, u_title, u_desc, DateTime.Parse(u_date), u_medium, u_url, u_artistId);
+                                        updateArtwork(artwork);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Console.WriteLine(ex.Message);
+                                    }
                                     break;
 
                                 case 3:
@@ -281,29 +295,45 @@ namespace Virtual_Art_Gallery.Service
                             switch (choice3)
                             {
                                 case 1:
-                                    searchArtwork();
-                                    Console.WriteLine();
-                                    Console.WriteLine("Enter user id: ");
-                                    int userId = int.Parse(Console.ReadLine());
-                                    Console.WriteLine("Enter your favorite artwork ids (Enter 0 to stop)");
-                                    List<int> artworkId = new List<int>();
-                                    int input=0;
-                                    while(true)
+                                    try
                                     {
-                                        input=int.Parse(Console.ReadLine());
-                                        if (input == 0)
-                                            break;
-                                        artworkId.Add(input);
+                                        searchArtwork();
+                                        Console.WriteLine();
+                                        Console.WriteLine("Enter user id: ");
+                                        int userId = int.Parse(Console.ReadLine());
+                                        UserNotFoundException.UserNotFound(userId);
+                                        Console.WriteLine("Enter your favorite artwork ids (Enter 0 to stop)");
+                                        List<int> artworkId = new List<int>();
+                                        int input = 0;
+                                        while (true)
+                                        {
+                                            input = int.Parse(Console.ReadLine());
+                                            if (input == 0)
+                                                break;
+                                            artworkId.Add(input);
+                                        }
+                                        addFavorite(userId, artworkId);
                                     }
-                                    addFavorite(userId, artworkId);
+                                    catch (Exception ex)
+                                    {
+                                        Console.WriteLine(ex.Message);
+                                    }
                                     break;
 
                                 case 2:
-                                    Console.WriteLine("Enter user id: ");
-                                    int user_id = int.Parse(Console.ReadLine());
-                                    Console.WriteLine("Enter Artwork id: ");
-                                    int artwork_id = int.Parse(Console.ReadLine());
-                                    removeFavorite(user_id, artwork_id);
+                                    try
+                                    {
+                                        Console.WriteLine("Enter user id: ");
+                                        int user_id = int.Parse(Console.ReadLine());
+                                        UserNotFoundException.UserNotFound(user_id);
+                                        Console.WriteLine("Enter Artwork id: ");
+                                        int artwork_id = int.Parse(Console.ReadLine());
+                                        removeFavorite(user_id, artwork_id);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Console.WriteLine(ex.Message);
+                                    }
                                     break;
 
                                 case 3:

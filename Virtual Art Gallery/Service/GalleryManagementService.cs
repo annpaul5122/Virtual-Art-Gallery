@@ -50,15 +50,23 @@ namespace Virtual_Art_Gallery.Service
 
         public void RemoveGallery(int galleryId)
         {
-            if (_gallerymanagement.RemoveGallery(galleryId))
+            try
             {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Record has been deleted successfully");
+                GalleryNotFoundException.GalleryNotFound(galleryId);
+                if (_gallerymanagement.RemoveGallery(galleryId))
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Record has been deleted successfully");
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Deletion unsuccessful.Try again!!!");
+                }
             }
-            else
+            catch(Exception ex)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Deletion unsuccessful.Try again!!!");
+                Console.WriteLine(ex.Message);
             }
         }
 
@@ -72,6 +80,24 @@ namespace Virtual_Art_Gallery.Service
             }
         }
 
+        public void artworksInGallery(int galleryId)
+        {
+            try
+            {
+                GalleryNotFoundException.GalleryNotFound(galleryId);
+                Console.WriteLine("Artworks");
+                Console.WriteLine(new string('-', 10));
+                foreach (string item in _gallerymanagement.artworksInGallery(galleryId))
+                {
+                    Console.WriteLine(item);
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
         public void HandleMenu()
         {
             int choice = 0;
@@ -82,7 +108,7 @@ namespace Virtual_Art_Gallery.Service
                 Console.WriteLine("Gallery Management");
                 Console.WriteLine("---------------------");
                 Console.ForegroundColor = ConsoleColor.Cyan;
-                Console.WriteLine("1. Add Gallery\n2. Update Gallery\n3. Remove Gallery\n4. Display All Gallery\n5. Exit\n");
+                Console.WriteLine("1. Add Gallery\n2. Update Gallery\n3. Remove Gallery\n4. Display All Gallery\n5. Display Artworks in Gallery\n6. Exit\n");
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("Enter your choice: ");
                 choice = int.Parse(Console.ReadLine());
@@ -106,20 +132,28 @@ namespace Virtual_Art_Gallery.Service
                         break;
 
                     case 2:
-                        Console.WriteLine("Enter Gallery Id: ");
-                        int id=int.Parse(Console.ReadLine());
-                        Console.WriteLine("Enter Name: ");
-                        string u_name = Console.ReadLine();
-                        Console.WriteLine("Enter description: ");
-                        string u_desc = Console.ReadLine();
-                        Console.WriteLine("Enter location: ");
-                        string u_location = Console.ReadLine();
-                        Console.WriteLine("Enter medium: ");
-                        int u_curator = int.Parse(Console.ReadLine());
-                        Console.WriteLine("Enter image url: ");
-                        string u_time = Console.ReadLine();
-                        gallery = new Gallery(id,u_name,u_desc,u_location,u_curator,TimeSpan.Parse(u_time));
-                        UpdateGallery(gallery);
+                        try
+                        {
+                            Console.WriteLine("Enter Gallery Id: ");
+                            int id = int.Parse(Console.ReadLine());
+                            GalleryNotFoundException.GalleryNotFound(id);
+                            Console.WriteLine("Enter Name: ");
+                            string u_name = Console.ReadLine();
+                            Console.WriteLine("Enter description: ");
+                            string u_desc = Console.ReadLine();
+                            Console.WriteLine("Enter location: ");
+                            string u_location = Console.ReadLine();
+                            Console.WriteLine("Enter artist Id: ");
+                            int u_curator = int.Parse(Console.ReadLine());
+                            Console.WriteLine("Enter opening time: ");
+                            string u_time = Console.ReadLine();
+                            gallery = new Gallery(id, u_name, u_desc, u_location, u_curator, TimeSpan.Parse(u_time));
+                            UpdateGallery(gallery);
+                        }
+                        catch(Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
                         break;
 
                     case 3:
@@ -133,6 +167,12 @@ namespace Virtual_Art_Gallery.Service
                         break;
 
                     case 5:
+                        Console.WriteLine("Enter gallery id: ");
+                        int galleryId = int.Parse(Console.ReadLine());
+                        artworksInGallery(galleryId);
+                        break;
+
+                    case 6:
                         Console.WriteLine("Exiting....");
                         break;
 
@@ -141,7 +181,7 @@ namespace Virtual_Art_Gallery.Service
                         Console.WriteLine("Try again!!!");
                         break;
                 }
-            } while (choice != 5);
+            } while (choice != 6);
         }
     }
 }

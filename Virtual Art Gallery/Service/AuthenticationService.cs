@@ -28,7 +28,8 @@ namespace Virtual_Art_Gallery.Service
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Login unsuccessful!!"); 
+                Console.WriteLine("Login unsuccessful!!");
+                Thread.Sleep(150);
             }
         }
 
@@ -39,7 +40,8 @@ namespace Virtual_Art_Gallery.Service
             else 
             { 
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Registration unsuccessful try again!!!"); 
+                Console.WriteLine("Registration unsuccessful try again!!!");
+                Thread.Sleep(150);
             }
         }
 

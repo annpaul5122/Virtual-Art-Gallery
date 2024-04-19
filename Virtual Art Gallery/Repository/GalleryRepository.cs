@@ -24,7 +24,7 @@ namespace Virtual_Art_Gallery.Repository
             int status = 0;
             try
             {
-                cmd.CommandText = "Insert into GALLERY values (@title,@description,@date,@medium,@image,@id)";
+                cmd.CommandText = "Insert into ARTWORK values (@title,@description,@date,@medium,@image,@id)";
                 cmd.Parameters.AddWithValue("@title", artwork.Title);
                 cmd.Parameters.AddWithValue("@description", artwork.Description);
                 cmd.Parameters.AddWithValue("@date", artwork.CreationDate);
