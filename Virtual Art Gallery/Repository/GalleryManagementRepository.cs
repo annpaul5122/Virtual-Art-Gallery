@@ -129,19 +129,27 @@ namespace Virtual_Art_Gallery.Repository
             return gallery;
         }
 
-        public List<string> artworksInGallery(int galleryId)
+        public List<Artwork> artworksInGallery(int galleryId)
         {
-            List<string> artworkName = new List<string>();
+            List<Artwork> artworkName = new List<Artwork>();
             try
             {
-                cmd.CommandText = "Select Title from ARTWORK a join GALLERY g on a.ArtistID=g.Curator where g.GalleryID=@id";
+                cmd.CommandText = "Select * from ARTWORK a join GALLERY g on a.ArtistID=g.Curator where g.GalleryID=@id";
                 cmd.Parameters.AddWithValue("@id", galleryId);
                 connect.Open();
                 cmd.Connection = connect;
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    artworkName.Add((string)reader["Title"]);
+                    Artwork artwork = new Artwork();
+                    artwork.ArtworkID = (int)reader["ArtworkID"];
+                    artwork.Title = (string)reader["Title"];
+                    artwork.Description = (string)reader["Description"];
+                    artwork.CreationDate = (DateTime)reader["CreationDate"];
+                    artwork.Medium = (string)reader["Medium"];
+                    artwork.ImageURL = (string)reader["ImageURL"];
+                    artwork.ArtistId = Convert.IsDBNull(reader["ArtistID"]) ? null : (int)reader["ArtistID"];
+                    artworkName.Add(artwork);
                 }
                 cmd.Parameters.Clear();
                 connect.Close();

@@ -85,9 +85,9 @@ namespace Virtual_Art_Gallery.Service
             try
             {
                 GalleryNotFoundException.GalleryNotFound(galleryId);
-                Console.WriteLine("Artworks");
-                Console.WriteLine(new string('-', 10));
-                foreach (string item in _gallerymanagement.artworksInGallery(galleryId))
+                Console.WriteLine("Id    Title\t\t     Description\t\t Creation\t\t  Medium\t    Image\t\t     Artist");
+                Console.WriteLine(new string('-', 132));
+                foreach (Artwork item in _gallerymanagement.artworksInGallery(galleryId))
                 {
                     Console.WriteLine(item);
                 }
